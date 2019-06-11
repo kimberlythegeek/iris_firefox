@@ -17,9 +17,13 @@ class Test(FirefoxTest):
     def run(self, firefox):
         advanced_button_pattern = Pattern('advanced_button.png')
         fonts_popup_pattern = Pattern('fonts_popup.png')
-        fonts_changed_pattern = Pattern('fonts_changed.png')
         serif_font_option_pattern = Pattern('serif_font_option.png')
+        fonts_changed_pattern = Pattern('fonts_changed.png')
 
+        if OSHelper.is_windows():
+            font_name = 'Arial'
+        elif OSHelper.is_mac():
+            font_name = 'American Typewriter'
         navigate(LocalWeb.FIREFOX_TEST_SITE)
 
         firefox_site_loaded = exists(LocalWeb.FIREFOX_LOGO)
@@ -38,13 +42,21 @@ class Test(FirefoxTest):
         serif_font_option = exists(serif_font_option_pattern, FirefoxSettings.FIREFOX_TIMEOUT)
         assert serif_font_option, "Serif font option available"
 
-        click(serif_font_option_pattern)
-        type(Key.DOWN)
+        serif_font_option_location = find(serif_font_option_pattern)
+        serif_font_option_width = serif_font_option_pattern.get_size()[0]
+        serif_font_option_click_location = Location(serif_font_option_location.x+serif_font_option_width*2,
+                                                    serif_font_option_location.y)
 
-        american_typewriter_option = exists('American Typewriter', FirefoxSettings.FIREFOX_TIMEOUT)
-        assert american_typewriter_option, 'American Typewriter Serif available'
+        if OSHelper.is_windows():
+            click(serif_font_option_click_location)
+        else:
+            click(serif_font_option_pattern)
+            type(Key.DOWN)
 
-        click('American Typewriter')
+        american_typewriter_option = exists(font_name, FirefoxSettings.FIREFOX_TIMEOUT)
+        assert american_typewriter_option, '{} Serif available'.format(font_name)
+
+        click(font_name)
         time.sleep(FirefoxSettings.TINY_FIREFOX_TIMEOUT)
         type(Key.ENTER)  # Close Advanced fonts popup
 
@@ -58,6 +70,6 @@ class Test(FirefoxTest):
         new_tab()
         navigate('about:preferences#general')
 
-        american_typewriter_option = exists('American Typewriter', FirefoxSettings.FIREFOX_TIMEOUT)
-        assert american_typewriter_option, 'American Typewriter Serif available. The changes that were made in ' \
-                                           'step 4 are still preserved'
+        american_typewriter_option = exists(font_name, FirefoxSettings.FIREFOX_TIMEOUT)
+        assert american_typewriter_option, '{} Serif available. The changes that were made in ' \
+                                           'step 4 are still preserved'.format(font_name)
