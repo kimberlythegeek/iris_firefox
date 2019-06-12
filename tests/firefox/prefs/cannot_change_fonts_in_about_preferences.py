@@ -74,4 +74,5 @@ class Test(FirefoxTest):
 
         font_name_option = exists(font_name, FirefoxSettings.FIREFOX_TIMEOUT)
         assert font_name_option, '{} Serif available. The changes that were made in ' \
-                                           'step 4 are still preserved'.format(font_name)
+                                 'step 4 are still preserved. -NOTE: In the builds affected by this bug, ' \
+                                 'the changes were not saved, they returned to the default ones. '.format(font_name)
