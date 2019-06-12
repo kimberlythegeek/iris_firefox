@@ -24,6 +24,8 @@ class Test(FirefoxTest):
             font_name = 'Arial'
         elif OSHelper.is_mac():
             font_name = 'American Typewriter'
+        else:
+            font_name = 'FreeSans'
         navigate(LocalWeb.FIREFOX_TEST_SITE)
 
         firefox_site_loaded = exists(LocalWeb.FIREFOX_LOGO)
@@ -53,8 +55,8 @@ class Test(FirefoxTest):
             click(serif_font_option_pattern)
             type(Key.DOWN)
 
-        american_typewriter_option = exists(font_name, FirefoxSettings.FIREFOX_TIMEOUT)
-        assert american_typewriter_option, '{} Serif available'.format(font_name)
+        font_name_option = exists(font_name, FirefoxSettings.FIREFOX_TIMEOUT)
+        assert font_name_option, '{} Serif available'.format(font_name)
 
         click(font_name)
         time.sleep(FirefoxSettings.TINY_FIREFOX_TIMEOUT)
@@ -70,6 +72,6 @@ class Test(FirefoxTest):
         new_tab()
         navigate('about:preferences#general')
 
-        american_typewriter_option = exists(font_name, FirefoxSettings.FIREFOX_TIMEOUT)
-        assert american_typewriter_option, '{} Serif available. The changes that were made in ' \
+        font_name_option = exists(font_name, FirefoxSettings.FIREFOX_TIMEOUT)
+        assert font_name_option, '{} Serif available. The changes that were made in ' \
                                            'step 4 are still preserved'.format(font_name)
