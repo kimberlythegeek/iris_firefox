@@ -25,7 +25,7 @@ class Test(FirefoxTest):
         elif OSHelper.is_mac():
             font_name = 'American Typewriter'
         else:
-            font_name = 'FreeSans'
+            font_name = Pattern('font_name.png')
         navigate(LocalWeb.FIREFOX_TEST_SITE)
 
         firefox_site_loaded = exists(LocalWeb.FIREFOX_LOGO)
@@ -46,10 +46,10 @@ class Test(FirefoxTest):
 
         serif_font_option_location = find(serif_font_option_pattern)
         serif_font_option_width = serif_font_option_pattern.get_size()[0]
-        serif_font_option_click_location = Location(serif_font_option_location.x+serif_font_option_width*2,
+        serif_font_option_click_location = Location(serif_font_option_location.x+serif_font_option_width*3,
                                                     serif_font_option_location.y)
 
-        if OSHelper.is_windows():
+        if OSHelper.is_windows() or OSHelper.is_linux():
             click(serif_font_option_click_location)
         else:
             click(serif_font_option_pattern)
@@ -59,6 +59,7 @@ class Test(FirefoxTest):
         assert font_name_option, '{} Serif available'.format(font_name)
 
         click(font_name)
+
         time.sleep(FirefoxSettings.TINY_FIREFOX_TIMEOUT)
         type(Key.ENTER)  # Close Advanced fonts popup
 
