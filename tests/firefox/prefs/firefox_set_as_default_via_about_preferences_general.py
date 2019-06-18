@@ -16,9 +16,14 @@ class Test(FirefoxTest):
         blocked_by={'id': 'issue_3126', 'platform': OSPlatform.WINDOWS}
     )
     def run(self, firefox):
-        web_browser_label_pattern = Pattern('web_browser_label.png')
         make_default_pattern = Pattern('make_default_button.png')
         firefox_is_currently_your_default_browser_pattern = Pattern('firefox_is_currently_your_default_browser.png')
+        if OSHelper.is_windows():
+            web_browser_label_pattern = Pattern('web_browser_label.png')
+        if OSHelper.is_mac():
+            do_you_want_to_change_your_default_web_browser_pattern = \
+                Pattern('do_you_want_to_change_your_default_web_browser.png')
+            use_firefox_pattern = Pattern('use_firefox_button.png')
 
         navigate('about:preferences')
 
@@ -30,19 +35,27 @@ class Test(FirefoxTest):
 
         click(make_default_pattern)
 
-        web_browser_label = exists(web_browser_label_pattern)
-        assert web_browser_label, 'A Windows\' pop-up is displayed.'
+        if OSHelper.is_windows():
+            web_browser_label = exists(web_browser_label_pattern)
+            assert web_browser_label, 'A Windows\' pop-up is displayed.'
 
-        web_browser_label_height = web_browser_label_pattern.get_size()[1]
+            web_browser_label_height = web_browser_label_pattern.get_size()[1]
 
-        click(web_browser_label_pattern.target_offset(0, web_browser_label_height*3))
+            click(web_browser_label_pattern.target_offset(0, web_browser_label_height*3))
 
-        firefox_string = exists('Firefox')
-        assert firefox_string, 'Firefox browser option available.'
+            firefox_string = exists('Firefox')
+            assert firefox_string, 'Firefox browser option available.'
 
-        click('Firefox')
+            click('Firefox')
 
-        type(Key.F4, KeyModifier.ALT)  # close system settings window
+            type(Key.F4, KeyModifier.ALT)  # close system settings window
+
+        if OSHelper.is_mac():
+            default_browser_popup = exists(do_you_want_to_change_your_default_web_browser_pattern)
+            assert default_browser_popup, ('A pop-up is displayed asking if you are sure that you want to make '
+                                           'Firefox your default browser.')
+
+            click(use_firefox_pattern)
 
         firefox_currently_default_browser = exists(firefox_is_currently_your_default_browser_pattern,
                                                    FirefoxSettings.FIREFOX_TIMEOUT)
