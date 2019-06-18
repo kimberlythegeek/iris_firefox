@@ -13,6 +13,7 @@ class Test(FirefoxTest):
         locale=['en-US'],
         test_case_id='143542',
         test_suite_id='2241',
+        blocked_by={'id': 'issue_3126', 'platform': OSPlatform.WINDOWS}
     )
     def run(self, firefox):
         web_browser_label_pattern = Pattern('web_browser_label.png')
