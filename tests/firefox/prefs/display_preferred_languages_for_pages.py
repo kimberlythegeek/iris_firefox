@@ -17,6 +17,9 @@ class Test(FirefoxTest):
     def run(self, firefox):
         choose_language_button_pattern = Pattern('choose_button.png')
         webpage_language_settings_title_pattern = Pattern('webpage_language_settings_title.png')
+        # add_button_pattern = Pattern('add_button.png')
+        select_a_language_to_add_pattern = Pattern('select_a_language_to_add.png')
+
 
         if OSHelper.is_windows():
             scroll_height = Screen.SCREEN_HEIGHT*2
@@ -43,3 +46,25 @@ class Test(FirefoxTest):
                                                  FirefoxSettings.FIREFOX_TIMEOUT)
         assert webpage_language_settings_title, 'Webpage language settings popup loaded.'
 
+        select_a_language_to_add = exists(select_a_language_to_add_pattern)
+        assert select_a_language_to_add, '"Select a language to add..." button available.'
+
+        click(select_a_language_to_add_pattern)
+
+        type('c')
+        type('h')
+        type(Key.DOWN)
+        type(Key.DOWN)
+        type(Key.DOWN)
+        type(Key.ENTER)
+        type(Key.ENTER)
+
+        change_preference('browser.search.region', 'US')
+
+        firefox.restart(LocalWeb.FIREFOX_TEST_SITE, image=LocalWeb.FIREFOX_LOGO)
+
+
+        time.sleep(1234)
+        #
+
+        add_button_pattern = Pattern('add_button.png')
