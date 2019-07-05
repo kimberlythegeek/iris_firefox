@@ -78,18 +78,44 @@ class Test(FirefoxTest):
         save_file_button = exists(DownloadFiles.SAVE_FILE)
         assert save_file_button, 'Save file button available'
 
-        click(DownloadFiles.SAVE_FILE)
+        click(DownloadFiles.SAVE_FILE, 1)
+
+        click(DownloadFiles.OK, 1)
 
         download_button = exists(NavBar.DOWNLOADS_BUTTON, region=Screen.TOP_THIRD)
         assert download_button, 'Downloads button available'
+
+        # Click on the download icon from the URL bar and click on the folder symbol (Open containing folder).
+        # The downloaded item was saved in the folder selected in step 3.
 
         click(NavBar.DOWNLOADS_BUTTON)
 
         open_downloads_folder = exists(DownloadManager.DownloadsPanel.OPEN_DOWNLOAD_FOLDER, region=Screen.TOP_THIRD)
         assert open_downloads_folder, 'Open downloads folder button available'
 
-        # The downloaded item was saved in the folder selected in step 3.
+        file_downloaded = exists(DownloadFiles.FOLDER_VIEW_5MB_HIGHLIGHTED)
+        assert file_downloaded, 'File displayed in folder'
+
+        type(Key.F4, modifier=KeyModifier.ALT)  # close folder window
+
+        # From "Files and Applications", underneath the "Downloads", check the option "Always ask where to save files".
+
+        # ...
+
+        # Go to this site, click on a small file and from the pop-up choose "Save File".
+
+        new_tab()
+
+        navigate(LocalWeb.THINKBROADBAND_TEST_SITE)
+
+        small_file = exists(DownloadFiles.EXTRA_SMALL_FILE_5MB)
+        assert small_file, 'Small file available'
+
+        click(DownloadFiles.EXTRA_SMALL_FILE_5MB)
+
+        # Choose a folder, click "Save", click on the download icon from the URL bar and click on the folder symbol (Open containing folder).
+
+        # The downloaded item was saved in the folder selected in the previous step.
 
         time.sleep(1234)
 
-        # From "Files and Applications", underneath the "Downloads", check the option "Always ask where to save files".
