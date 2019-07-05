@@ -57,12 +57,17 @@ class Test(FirefoxTest):
         select_folder_button = exists(Utils.SELECT_FOLDER)
         assert select_folder_button, 'Select folder button available.'
 
+        click(Utils.SELECT_FOLDER, 1)
+
         # The subdialog is dismissed.
         # The "Save files to" field is populated with the new location.
 
         # ...
 
         # Go to this site, click on a small file and from the pop-up choose "Save File".
+
+        new_tab()
+
         navigate(LocalWeb.THINKBROADBAND_TEST_SITE)
 
         small_file = exists(DownloadFiles.EXTRA_SMALL_FILE_5MB)
@@ -85,3 +90,6 @@ class Test(FirefoxTest):
 
         # The downloaded item was saved in the folder selected in step 3.
 
+        time.sleep(1234)
+
+        # From "Files and Applications", underneath the "Downloads", check the option "Always ask where to save files".
