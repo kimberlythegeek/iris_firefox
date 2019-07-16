@@ -15,11 +15,11 @@ class Test(FirefoxTest):
         locale=['en-US'],
     )
     def run(self, firefox):
+        time.sleep(8)
         choose_language_button_pattern = Pattern('choose_button.png')
         webpage_language_settings_title_pattern = Pattern('webpage_language_settings_title.png')
-        # add_button_pattern = Pattern('add_button.png')
         select_a_language_to_add_pattern = Pattern('select_a_language_to_add.png')
-
+        aboutpreferences_ok_button_pattern = Pattern('aboutpreferences_ok_button.png')
 
         if OSHelper.is_windows():
             scroll_height = Screen.SCREEN_HEIGHT*2
@@ -49,22 +49,26 @@ class Test(FirefoxTest):
         select_a_language_to_add = exists(select_a_language_to_add_pattern)
         assert select_a_language_to_add, '"Select a language to add..." button available.'
 
-        click(select_a_language_to_add_pattern)
+        click(select_a_language_to_add_pattern, 1)
 
-        type('c')
+        type('c')  # choose Chinese language
         type('h')
         type(Key.DOWN)
         type(Key.DOWN)
         type(Key.DOWN)
         type(Key.ENTER)
+
+        type(Key.TAB)  # add button
         type(Key.ENTER)
 
-        change_preference('browser.search.region', 'US')
+        ok_button_available = exists(aboutpreferences_ok_button_pattern)
+        assert ok_button_available, 'OK button available'
 
-        firefox.restart(LocalWeb.FIREFOX_TEST_SITE, image=LocalWeb.FIREFOX_LOGO)
+        click(aboutpreferences_ok_button_pattern, 1)
 
+        new_tab()
+        type('toyota')
+        type(Key.ENTER)
 
-        time.sleep(1234)
-        #
-
-        add_button_pattern = Pattern('add_button.png')
+        toyota_chinese = exists('丰田汽车', FirefoxSettings.SITE_LOAD_TIMEOUT, Screen.TOP_THIRD)
+        assert toyota_chinese, 'The search results are in the selected language'
