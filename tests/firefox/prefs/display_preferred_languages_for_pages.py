@@ -70,5 +70,5 @@ class Test(FirefoxTest):
         type('toyota')
         type(Key.ENTER)
 
-        toyota_chinese = exists('丰田汽车', FirefoxSettings.SITE_LOAD_TIMEOUT, Screen.TOP_THIRD)
+        toyota_chinese = exists('翻译此页'.encode('utf-8'), FirefoxSettings.SITE_LOAD_TIMEOUT, Screen.TOP_THIRD)
         assert toyota_chinese, 'The search results are in the selected language'
