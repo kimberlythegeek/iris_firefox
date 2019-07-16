@@ -26,6 +26,8 @@ class Test(FirefoxTest):
         expected = exists(AboutPreferences.FIND_IN_OPTIONS, 10)
         assert expected is True, '\'Find in Options\' search field is displayed.'
 
+        #  From "Files and Applications", underneath the "Downloads", click on the "Browse..." button.
+
         click(AboutPreferences.FIND_IN_OPTIONS)
 
         paste('downloads')
@@ -35,13 +37,7 @@ class Test(FirefoxTest):
 
         click(AboutPreferences.BROWSE)
 
-        expected = exists(Utils.NEW_FOLDER, 10)
-        assert expected is True, '\'New Folder\' button is displayed.'
-
-        # click(Utils.NEW_FOLDER)
-        #
-        # expected = exists(Utils.NEW_FOLDER_HIGHLIGHTED, 10)
-        # assert expected is True, '\'New Folder\' is highlighted.'
+        # open_directory(PathManager.get_downloads_dir())
 
         folderpath = PathManager.get_downloads_dir()
 
@@ -53,6 +49,17 @@ class Test(FirefoxTest):
         else:
             paste(folderpath)
             type(Key.ENTER, interval=1)
+
+        expected = exists(Utils.NEW_FOLDER, 10)
+        assert expected is True, '\'New Folder\' button is displayed.'
+
+        click(Utils.NEW_FOLDER)
+
+        expected = exists(Utils.NEW_FOLDER_HIGHLIGHTED, 10)
+        assert expected is True, '\'New Folder\' is highlighted.'
+
+        paste('new_downloads_folder')
+        type(Key.ENTER)
 
         select_folder_button = exists(Utils.SELECT_FOLDER)
         assert select_folder_button, 'Select folder button available.'
@@ -70,7 +77,7 @@ class Test(FirefoxTest):
 
         navigate(LocalWeb.THINKBROADBAND_TEST_SITE)
 
-        small_file = exists(DownloadFiles.EXTRA_SMALL_FILE_5MB)
+        small_file = exists(DownloadFiles.EXTRA_SMALL_FILE_5MB, FirefoxSettings.SITE_LOAD_TIMEOUT)
         assert small_file, 'Small file available'
 
         click(DownloadFiles.EXTRA_SMALL_FILE_5MB)
@@ -93,7 +100,7 @@ class Test(FirefoxTest):
         open_downloads_folder = exists(DownloadManager.DownloadsPanel.OPEN_DOWNLOAD_FOLDER, region=Screen.TOP_THIRD)
         assert open_downloads_folder, 'Open downloads folder button available'
 
-        file_downloaded = exists(DownloadFiles.FOLDER_VIEW_5MB_HIGHLIGHTED)
+        file_downloaded = exists(DownloadFiles.DOWNLOADS_PANEL_5MB_COMPLETED)
         assert file_downloaded, 'File displayed in folder'
 
         type(Key.F4, modifier=KeyModifier.ALT)  # close folder window
@@ -108,14 +115,14 @@ class Test(FirefoxTest):
 
         navigate(LocalWeb.THINKBROADBAND_TEST_SITE)
 
-        small_file = exists(DownloadFiles.EXTRA_SMALL_FILE_5MB)
+        small_file = exists(DownloadFiles.EXTRA_SMALL_FILE_5MB, FirefoxSettings.SITE_LOAD_TIMEOUT)
         assert small_file, 'Small file available'
 
-        click(DownloadFiles.EXTRA_SMALL_FILE_5MB)
 
         # Choose a folder, click "Save", click on the download icon from the URL bar and click on the folder symbol (Open containing folder).
 
         # The downloaded item was saved in the folder selected in the previous step.
 
-        time.sleep(1234)
-
+        # time.sleep(1234)
+        #
+        # click(DownloadFiles.EXTRA_SMALL_FILE_5MB)
