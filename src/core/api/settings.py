@@ -96,6 +96,8 @@ class _Settings:
         # Don't send Telemetry reports to the production server. This is
         # needed as Telemetry sends pings also if FHR upload is enabled.
         'toolkit.telemetry.server': 'http://%(server)s/telemetry-dummy/',
+        # Suppress the Content blocking pop-ups
+        'browser.contentblocking.introCount': 20,
     }
 
     def __init__(self, wait_scan_rate=DEFAULT_WAIT_SCAN_RATE, type_delay=DEFAULT_TYPE_DELAY,
