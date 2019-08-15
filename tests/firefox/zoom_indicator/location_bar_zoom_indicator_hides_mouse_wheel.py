@@ -17,7 +17,7 @@ class Test(FirefoxTest):
     )
     def run(self, firefox):
         url = LocalWeb.FIREFOX_TEST_SITE
-        url_bar_default_zoom_level_pattern = LocationBar.URL_BAR_DEFAULT_ZOOM_LEVEL
+        url_bar_default_zoom_level_pattern = LocationBar.URL_BAR_DEFAULT_ZOOM_LEVEL.similar(.7)
         urlbar_zoom_button_110_pattern = LocationBar.URLBAR_ZOOM_BUTTON_110
         urlbar_zoom_button_90_pattern = LocationBar.URLBAR_ZOOM_BUTTON_90
 
@@ -28,8 +28,7 @@ class Test(FirefoxTest):
 
         region = create_region_for_url_bar()
 
-        expected = exists(url_bar_default_zoom_level_pattern.similar(0.92), FirefoxSettings.FIREFOX_TIMEOUT,
-                          region=region)
+        expected = exists(url_bar_default_zoom_level_pattern, FirefoxSettings.FIREFOX_TIMEOUT, region=region)
         assert expected, 'Zoom indicator not displayed by default in the url bar.'
 
         click(LocalWeb.FIREFOX_LOGO)
@@ -43,8 +42,7 @@ class Test(FirefoxTest):
 
         zoom_with_mouse_wheel(1, ZoomType.OUT)
 
-        expected = exists(url_bar_default_zoom_level_pattern.similar(0.92), FirefoxSettings.FIREFOX_TIMEOUT,
-                          region=new_region)
+        expected = exists(url_bar_default_zoom_level_pattern, FirefoxSettings.FIREFOX_TIMEOUT, region=new_region)
         assert expected, 'Zoom level successfully decreased, zoom indicator not found in the url bar ' \
                          'for 100% zoom level.'
 
@@ -55,6 +53,5 @@ class Test(FirefoxTest):
 
         zoom_with_mouse_wheel(1, ZoomType.IN)
 
-        expected = exists(url_bar_default_zoom_level_pattern.similar(0.92), FirefoxSettings.FIREFOX_TIMEOUT,
-                          region=new_region)
+        expected = exists(url_bar_default_zoom_level_pattern, FirefoxSettings.FIREFOX_TIMEOUT, region=new_region)
         assert expected, 'Zoom level successfully increased, zoom indicator not found in the url bar.'
