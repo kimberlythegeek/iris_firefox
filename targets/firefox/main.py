@@ -28,7 +28,8 @@ from src.configuration.config_parser import get_config_property, validate_sectio
 from targets.firefox.bug_manager import is_blocked
 from targets.firefox.firefox_app.fx_browser import FXRunner, FirefoxProfile, FirefoxUtils
 from targets.firefox.firefox_app.fx_collection import FX_Collection
-from targets.firefox.firefox_ui.helpers.keyboard_shortcuts import quit_firefox, release_often_used_keys
+from targets.firefox.firefox_ui.helpers.keyboard_shortcuts import quit_firefox, release_often_used_keys, \
+    minimize_all_windows
 from targets.firefox.firefox_ui.helpers.version_parser import check_version
 from targets.firefox.testrail.testrail_client import report_test_results
 
@@ -276,6 +277,8 @@ class Target(BaseTarget):
                         pass
                 else:
                     logger.error('Invalid Path: %s' % profile_instance.profile)
+
+            minimize_all_windows()
 
         except (AttributeError, KeyError):
             pass

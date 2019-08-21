@@ -721,4 +721,18 @@ def release_often_used_keys():
     if OSHelper.is_windows():
         key_up(KeyModifier.WIN)
 
+
+def minimize_all_windows():
+    """
+    Minimizes/hides all opened windows
+    """
+
+    if OSHelper.is_windows():
+        type(text='m', modifier=KeyModifier.WIN)
+    elif OSHelper.is_linux():
+        type(text="d", modifier=[KeyModifier.CTRL, KeyModifier.WIN])
+    else:
+        # No suitable approach for MAC, please add if you know any
+        pass
+
 # End Tools keyboard shortcuts
