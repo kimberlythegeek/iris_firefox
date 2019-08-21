@@ -29,10 +29,8 @@ class Test(FirefoxTest):
         expected = exists(hamburger_menu_pattern, FirefoxSettings.FIREFOX_TIMEOUT)
         assert expected, 'Page successfully loaded, hamburger menu found.'
 
-        expected = exists(search_bar_pattern, FirefoxSettings.FIREFOX_TIMEOUT)
-        if OSHelper.is_windows():  # fix issue when on hover on navbar image is not being recognized
-            search_bar_hover_pattern = Pattern("navigation_bar_hover.png")
-            expected = expected or exists(search_bar_hover_pattern, FirefoxSettings.FIREFOX_TIMEOUT)
+        search_bar_hover_pattern = Pattern("navigation_bar_hover.png")
+        expected = exists(search_bar_hover_pattern, FirefoxSettings.FIREFOX_TIMEOUT)
 
         assert expected, 'Zoom indicator not displayed by default in the url bar.'
 
