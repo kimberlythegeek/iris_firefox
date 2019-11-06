@@ -139,3 +139,7 @@ Pipfile.lock
 # To download files
 targets/firefox/local_web/thinkbroadband/thinkbroadband_files/downloaded_archives/*
 targets/nightly/local_web/thinkbroadband/thinkbroadband_files/downloaded_archives/*
+
+.pytest_cache
+.tox
+.env
